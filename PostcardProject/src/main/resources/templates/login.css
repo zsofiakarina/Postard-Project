@@ -1,0 +1,8 @@
+.body{
+    background-color: #1B213E;
+}
+
+.loginform{
+    display: flex;
+    justify-content: center;
+}
