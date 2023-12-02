@@ -17,6 +17,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    public User(String email) {
+    }
+
     public Long getId() {
         return id;
     }
