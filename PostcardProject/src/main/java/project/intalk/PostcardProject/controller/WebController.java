@@ -1,22 +1,23 @@
 package project.intalk.PostcardProject.controller;
 
-import jakarta.validation.Valid;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import project.intalk.PostcardProject.model.RegistrationForm;
 import project.intalk.PostcardProject.personas.User;
 import project.intalk.PostcardProject.repository.UserRepository;
 
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Controller
 public class WebController {
 
-    private Logger logger = (Logger) LoggerFactory.getLogger(WebController.class);
+    private static final Logger logger = Logger.getLogger(WebController.class.getName());
 
     private final UserRepository repository;
 
@@ -25,30 +26,41 @@ public class WebController {
         this.repository = repository;
     }
 
-    public WebController(Logger logger, UserRepository repository) {
-        this.logger = logger;
-        this.repository = repository;
-    }
-
-    @GetMapping("/")
-    public String showRegistrationForm(RegistrationForm registrationForm) {
-
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("registrationForm", new RegistrationForm());
         return "registration";
     }
 
-    @PostMapping("/")
-    public String register(@Valid RegistrationForm registrationForm, BindingResult bindingResult) {
+    @PostMapping("/register")
+    public String register(@ModelAttribute RegistrationForm registrationForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            logger.info("Validation errors occurred!");
             return "registration";
         }
 
-        logger.info("Registering user with email: {}");
-        final boolean userIsRegistered = repository.findByEmail(registrationForm.getEmail()).isPresent();
-        if (!userIsRegistered) {
-            repository.save(new User(registrationForm.getEmail()));
+        Optional<User> existingUser = repository.findByEmail(registrationForm.getEmail());
+        if (existingUser != null) {
+            model.addAttribute("message", "Ez az e-mail cím már regisztrálva van.");
+            return "registration";
         }
 
+        User newUser = new User(registrationForm.getName(), registrationForm.getEmail(), registrationForm.getPassword());
+        repository.save(newUser);
+        return "redirect:/login";
+    }
+
+    @GetMapping("/login")
+    public String showLoginForm() {
+        return "login";
+    }
+
+    @GetMapping("/main")
+    public String showMainPage() {
         return "main";
+    }
+
+    @GetMapping("/postcard")
+    public String showPostcardPage() {
+        return "postcard";
     }
 }
