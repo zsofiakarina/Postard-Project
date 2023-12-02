@@ -50,6 +50,7 @@ public class WebController {
         return "redirect:/login";
     }
 
+    // Itt a login
     @GetMapping("/login")
     public String showLogin(Model model) {
         model.addAttribute("loginForm", new Login());
