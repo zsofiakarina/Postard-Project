@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import project.intalk.PostcardProject.domain.Login;
 import project.intalk.PostcardProject.model.RegistrationForm;
 import project.intalk.PostcardProject.personas.User;
 import project.intalk.PostcardProject.repository.UserRepository;
@@ -50,7 +51,8 @@ public class WebController {
     }
 
     @GetMapping("/login")
-    public String showLoginForm() {
+    public String showLogin(Model model) {
+        model.addAttribute("loginForm", new Login());
         return "login";
     }
 
