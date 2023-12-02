@@ -1,11 +1,10 @@
 package project.intalk.PostcardProject.personas;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@Entity
 public class User {
+
     @Id
     @GeneratedValue
     private Long id;
@@ -13,6 +12,9 @@ public class User {
     private String name;
     private String email;
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public Long getId() {
         return id;
@@ -49,7 +51,4 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
 }
