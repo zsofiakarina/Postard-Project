@@ -5,6 +5,13 @@
     <title>Login</title>
 </head>
 <body>
-
+<h1>It's tiiiiiime to login!</h1>
+<form action="#" th:action="@{/}" th:object="${loginForm}" method="post">ű
+    Username: <input type="text" th:field="*{username}"/></br>
+    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error!</span>
+    Password: <input type="password" th:field="*{password}"/></br>
+    <span th:if="${#fields.hasErrors('username')}" th:errors="*{password}">Password Error!</span></br>
+    <input type="submit" value="LOGIN">
+</form>
 </body>
 </html>
