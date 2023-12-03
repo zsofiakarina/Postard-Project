@@ -3,8 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <title>Send a Postcard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Ubuntu', sans-serif;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: #FFFFFF;
+            background-color: #1B213E;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            padding: 10px;
+            height: 70px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+        .profile-pic {
+            border-radius: 50%;
+            margin-right: 10px;
+            height: 50px;
+            width: 50px;
+        }
+        .header-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .header-center a {
+            margin: 0 10px;
+            padding: 20px 20px;
+            text-decoration: none;
+            font-weight: bolder;
+            color: #F5C832;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+        .logout-button {
+            background-color: #F5C832;
+            border: none;
+            border-radius: 10px;
+            color: #1B213E;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: bold;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
+<div class="header">
+    <div class="header-left">
+        <img src="claus.png" alt="Profile Picture" class="profile-pic">
+        <span>User Name</span>
+    </div>
+
+    <div class="header-center">
+        <a href="/main">Gallery</a>
+        <a href="/postcard">Postcard</a>
+    </div>
+
+    <div class="header-right">
+        <button class="logout-button" onclick="/logout">Logout</button>
+    </div>
+</div>
 
 </body>
 </html>
