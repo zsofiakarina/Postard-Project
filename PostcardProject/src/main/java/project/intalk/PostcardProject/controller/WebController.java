@@ -48,7 +48,7 @@ public class WebController {
 
         User newUser = new User(registrationForm.getName(), registrationForm.getEmail(), registrationForm.getPassword(), registrationForm.getRole());
         repository.save(newUser);
-        return "login";
+        return "redirect:/login";
     }
 
     // Itt a login
@@ -64,7 +64,7 @@ public class WebController {
             User user = userOpt.get();
             if (user.getPassword().equals(loginForm.getPassword())) {
                 // Sikeres bejelentkezés, átirányítás a főoldalra
-                return "main";
+                return "redirect:/main";
             }
         }
         // Sikertelen bejelentkezés, visszatérés a bejelentkezési oldalra hibaüzenettel
