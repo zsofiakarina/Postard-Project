@@ -78,6 +78,46 @@
             justify-content: center;
             align-items: center;
         }
+        .postcard-form{
+            width: 300px;
+        }
+        .postcard{
+            width: 559px;
+            margin-right: 50px;
+        }
+        .to{
+            width: 300px;
+            border: 0;
+            border-radius: 10px;
+            background-color: #FBE3A5;
+            font-family: 'Ubuntu', sans-serif;
+            font-style: normal;
+            font-size: 10pt;
+            height: 35px;
+        }
+        .text{
+            width: 300px;
+            border: 0;
+            border-radius: 10px;
+            background-color: #FBE3A5;
+            font-family: 'Ubuntu', sans-serif;
+            font-style: normal;
+            font-size: 10pt;
+            height: 150px;
+        }
+        .btn{
+            background-color: #F5C832;
+            border: 0;
+            font-family: 'Ubuntu', sans-serif;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 10pt;
+            border-radius: 10px;
+            padding: 10px 0 10px 0;
+            position: absolute;
+            width: 100px;
+        }
+
     </style>
 </head>
 <body>
@@ -99,15 +139,15 @@
     <div class="body">
     <h1>Create a digital postcard!</h1></br></br>
     <div class="content">
+        <div class="postcard">
+            <img src="postcard.png" alt="postcard" width="559px">
+        </div>
         <div class="postcard-form">
             <form th:action="@{/login}" th:object="${postcard}" method="post">
-                <input type="text" placeholder="To" th:field="*{to}" required></br>
-                <input type="text" placeholder="message" th:field="*{message}" required/></br>
-                <input type="submit" value="POST">
+                <input class="to" type="text" placeholder="To" th:field="*{to}" required></br></br>
+                <input class="text" type="text" placeholder="Message" th:field="*{message}" required/></br></br>
+                <input class="btn" type="submit" value="POST">
             </form></br></br></br>
-        </div>
-        <div class="postcard">
-            <img src="postcard.png" alt="postcard">
         </div>
     </div>
     </div>
