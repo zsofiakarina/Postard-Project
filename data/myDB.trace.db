@@ -61,3 +61,6 @@ create table user (id bigint not null, email varchar(255), name varchar(255), pa
 2023-12-03 13:38:32.048926+01:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table [*]user (id bigint not null, email varchar(255), name varchar(255), password varchar(255), role varchar(255) check (role in ('USER','ADMIN')), primary key (id))"; expected "identifier"; SQL statement:
 create table user (id bigint not null, email varchar(255), name varchar(255), password varchar(255), role varchar(255) check (role in ('USER','ADMIN')), primary key (id)) [42001-224]
+2023-12-03 14:01:07.704964+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table [*]user (id bigint not null, email varchar(255), name varchar(255), password varchar(255), role varchar(255) check (role in ('USER','ADMIN')), primary key (id))"; expected "identifier"; SQL statement:
+create table user (id bigint not null, email varchar(255), name varchar(255), password varchar(255), role varchar(255) check (role in ('USER','ADMIN')), primary key (id)) [42001-224]

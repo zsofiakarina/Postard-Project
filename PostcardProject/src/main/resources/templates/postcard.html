@@ -78,6 +78,47 @@
             justify-content: center;
             align-items: center;
         }
+        .postcard-form{
+            width: 300px;
+        }
+        .postcard{
+            width: 559px;
+            margin-right: 50px;
+            z-index: -1;
+        }
+        .to{
+            width: 300px;
+            border: 0;
+            border-radius: 10px;
+            background-color: #FBE3A5;
+            font-family: 'Ubuntu', sans-serif;
+            font-style: normal;
+            font-size: 10pt;
+            height: 35px;
+        }
+        .text{
+            width: 300px;
+            border: 0;
+            border-radius: 10px;
+            background-color: #FBE3A5;
+            font-family: 'Ubuntu', sans-serif;
+            font-style: normal;
+            font-size: 10pt;
+            height: 150px;
+        }
+        .btn{
+            background-color: #F5C832;
+            border: 0;
+            font-family: 'Ubuntu', sans-serif;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 10pt;
+            border-radius: 10px;
+            padding: 10px 0 10px 0;
+            position: absolute;
+            width: 100px;
+        }
+
     </style>
 </head>
 <body>
@@ -99,17 +140,62 @@
     <div class="body">
     <h1>Create a digital postcard!</h1></br></br>
     <div class="content">
+        <div class="postcard">
+            <canvas id="canvas" width="559" height="397"></canvas>
+        </div>
         <div class="postcard-form">
             <form th:action="@{/login}" th:object="${postcard}" method="post">
-                <input type="text" placeholder="To" th:field="*{to}" required></br>
-                <input type="text" placeholder="message" th:field="*{message}" required/></br>
-                <input type="submit" value="POST">
+                <input class="to" type="text" placeholder="To" th:field="*{to}" required></br></br>
+                <input class="text" id="textInput" type="text" placeholder="Message" th:field="*{message}" required/></br></br>
+                <input class="btn" type="submit" value="POST">
             </form></br></br></br>
         </div>
-        <div class="postcard">
-            <img src="postcard.png" alt="postcard">
-        </div>
     </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+            const input = document.getElementById("textInput");
+
+            const image = new Image();
+            image.src = 'postcard.png'; // Replace with your image path
+            image.onload = () => {
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            };
+
+            input.addEventListener("input", function() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "black";
+                const lineHeight = 28; // Line height of 2 (20px font size x 2)
+                const indent = 290; // Indentation from left
+                const topMargin = 167; // Starting point from top
+                let lines = breakTextIntoLines(input.value, 25);
+
+                lines.forEach((line, index) => {
+                    ctx.fillText(line, indent, topMargin + (index * lineHeight));
+                });
+            });
+
+            function breakTextIntoLines(text, maxCharacters) {
+                let lines = [];
+                let currentLine = '';
+
+                for (let i = 0; i < text.length; i++) {
+                    currentLine += text[i];
+                    if ((i + 1) % maxCharacters === 0 || i === text.length - 1) {
+                        lines.push(currentLine);
+                        currentLine = '';
+                    }
+                }
+
+                return lines;
+            }
+        });
+    </script>
+
 </body>
 </html>
