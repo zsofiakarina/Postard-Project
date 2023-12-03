@@ -2,8 +2,180 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
+    <style>
+        body {
+            background-color: #1B213E;
+        }
+        a {
+            color: #F5C832;
+
+        }
+        .regform{
+            display: flex;
+            font-family: 'Ubuntu', sans-serif;
+            color: #FFFFFF;
+            font-style: normal;
+            position: absolute;
+            overflow: hidden;
+            height: 100vh;
+            width: 100%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            text-align: center;
+        }
+        .regform input[type=text]{
+            width: 300px;
+            border: 0;
+            border-radius: 10px;
+            background-color: #FFFFFF;
+            font-family: 'Ubuntu', sans-serif;
+            font-style: normal;
+            font-size: 10pt;
+            height: 35px;
+        }
+        .regform input[type=email]{
+            width: 300px;
+            border: 0;
+            border-radius: 10px;
+            background-color: #FFFFFF;
+            font-family: 'Ubuntu', sans-serif;
+            font-style: normal;
+            font-size: 10pt;
+            height: 35px;
+        }
+        .regform input[type=password]{
+            width: 300px;
+            border: 0;
+            border-radius: 10px;
+            background-color: #FFFFFF;
+            font-family: 'Ubuntu', sans-serif;
+            font-style: normal;
+            font-size: 10pt;
+            height: 35px;
+        }
+
+        .regform input[type=submit]{
+            background-color: #F5C832;
+            border: 0;
+            font-family: 'Ubuntu', sans-serif;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 10pt;
+            border-radius: 10px;
+            padding: 10px 0 10px 0;
+            position: absolute;
+            width: 100px;
+        }
+    </style>
+    <script type="text/javascript">
+        var speed=30, leaves=10, body;
+        var dx=[], xp=[], yp=[], am=[], dy=[], le=[];
+        var swidth=window.innerWidth, sheight=window.innerHeight;
+        var sleft=0, count=0, offset=0, deeex=0;
+        var leafcount=[];
+
+        function addLoadEvent(hello) {
+            var oldonload=window.onload;
+            if (typeof(oldonload)!='function') window.onload=hello;
+            else window.onload=function() {
+                if (oldonload) oldonload();
+                hello();
+            }
+        }
+
+        addLoadEvent(initGSF);
+
+        function initGSF() { if (document.getElementById) {
+            body=document.createElement("gs-falling");
+            body.style.position="fixed";
+            body.style.bottom="0px";
+            body.style.left="0px";
+            body.style.width="100vw";
+            body.style.height="100vh";
+            body.style.overflow="visible";
+            body.style.backgroundColor="transparent";
+            body.style.pointerEvents="none";
+            body.style.zIndex="0";
+            document.body.insertBefore(body, document.body.firstChild);
+            for (i=0; i<leaves; i++) leafStart(Math.random()*sheight*3/4);
+            offset=0;
+            setInterval("gsLeaves()", speed);
+        }}
+
+        function leafStart (whyp) {
+            count++;
+            offset++;
+            var f, size;
+            size = fallStart(count, whyp);
+            f = document.createElement("img");
+            f.src = "snowflake.png";
+            f.width = size;
+            f.style.position = "absolute";
+            f.style.top = yp[count]+"px";
+            f.style.left = xp[count]+"px";
+            f.style.rotate = Math.random()*360+"deg";
+            leafcount[count] = f;
+            body.appendChild(f);
+        }
+
+        function fallStart (i, whyp) {
+            var size = 72-Math.floor(36*Math.random());
+            dx[i]=Math.random();
+            am[i]=8+Math.random()*24;
+            dy[i]=1+Math.random()*2;
+            xp[i]=Math.random()*(swidth-size);
+            yp[i]=whyp-size;
+            le[i]='fall';
+            return size;
+        }
+
+        function gsLeaves() {
+            var i;
+            var c=0;
+            for (i=0; i<count; i++) {
+                if (leafcount[i]) {
+                    if (yp[i]>sheight || xp[i]>swidth || xp[i]<-leafcount[i].width) {
+                        if (offset>0) offset--;
+                        body.removeChild(leafcount[i]);
+                        leafcount[i]=false;
+                    }
+                    else if (yp[i]+offset/leaves<sheight-leafcount[i].height/2) {
+                        yp[i]+=dy[i];
+                        dx[i]+=0.025+Math.random()/10;
+                        xp[i]+=deeex;
+                        leafcount[i].style.top=(yp[i]-am[i]/3*Math.abs(Math.sin(dx[i])))+"px";
+                        leafcount[i].style.left=(xp[i]+am[i]*Math.sin(dx[i]))+"px";
+                    }
+                    else if (le[i]=='fall'){
+                        le[i]='land';
+                        body.removeChild(leafcount[i]);
+                    }
+                }
+                if (leafcount[i] && le[i]=='fall') c++;
+            }
+            if (c<leaves) leafStart(0);
+        }
+    </script>
 </head>
 <body>
+<div class="regform">
+    <h1>It's time to register!</h1></br></br></br>
+    <form th:action="@{/register}" th:object="${registrationForm}" method="post">
+        <input type="text" placeholder="Username" th:field="*{name}" required/></br>
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error!</span></br></br>
+        <input type="email" placeholder="Email address" th:field="*{email}" required/></br>
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error!</span></br></br>
+        <input type="password" placeholder="Password" th:field="*{password}"/></br>
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error!</span></br></br>
+        <input type="submit" value="REGISTER">
+    </form></br></br></br>
+    <p>If already a member, <a href="/login">sign in here</a>!</p>
+</div>
+</body>
+
+<!--<body>
 <h1>Regisztráció</h1>
 <form th:action="@{/register}" th:object="${registrationForm}" method="post">
     <div>
@@ -22,5 +194,5 @@
         <button type="submit">Regisztrálás</button>
     </div>
 </form>
-</body>
+</body>-->
 </html>
