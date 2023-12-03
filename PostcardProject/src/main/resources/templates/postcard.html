@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Send a Postcard</title>
@@ -67,9 +67,16 @@
             margin: 4px 2px;
             cursor: pointer;
         }
+        .body{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
         .content{
             display: flex;
             justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
@@ -89,6 +96,7 @@
             <button class="logout-button" onclick="/logout">Logout</button>
         </div>
     </div>
+    <div class="body">
     <h1>Create a digital postcard!</h1></br></br>
     <div class="content">
         <div class="postcard-form">
@@ -101,6 +109,7 @@
         <div class="postcard">
             <img src="postcard.png" alt="postcard">
         </div>
+    </div>
     </div>
 </body>
 </html>
