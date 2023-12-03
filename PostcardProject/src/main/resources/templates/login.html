@@ -153,7 +153,7 @@
 <body>
     <div class="loginform">
         <h1>It's time to sign in!</h1></br></br></br>
-        <form action="#" th:action="@{/login}" th:object="${loginForm}" method="post">
+        <form th:action="@{/login}" th:object="${loginForm}" method="post">
             <input type="text" placeholder="Username" th:field="*{username}" required></br>
             <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error!</span></br></br>
             <input type="password" placeholder="Password" th:field="*{password}" required/></br>

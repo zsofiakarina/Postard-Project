@@ -163,6 +163,10 @@
 <div class="regform">
     <h1>It's time to register!</h1></br></br></br>
     <form th:action="@{/register}" th:object="${registrationForm}" method="post">
+        <select name="role" id="role">
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+        </select>
         <input type="text" placeholder="Username" th:field="*{name}" required/></br>
         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error!</span></br></br>
         <input type="email" placeholder="Email address" th:field="*{email}" required/></br>

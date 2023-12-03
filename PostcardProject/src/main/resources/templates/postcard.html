@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Send a Postcard</title>
@@ -67,24 +67,40 @@
             margin: 4px 2px;
             cursor: pointer;
         }
+        .content{
+            display: flex;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
-<div class="header">
-    <div class="header-left">
-        <img src="claus.png" alt="Profile Picture" class="profile-pic">
-        <span>User Name</span>
-    </div>
+    <div class="header">
+        <div class="header-left">
+            <img src="claus.png" alt="Profile Picture" class="profile-pic">
+            <span>User Name</span>
+        </div>
 
-    <div class="header-center">
-        <a href="/main">Gallery</a>
-        <a href="/postcard">Postcard</a>
-    </div>
+        <div class="header-center">
+            <a href="/main">Gallery</a>
+            <a href="/postcard">Postcard</a>
+        </div>
 
-    <div class="header-right">
-        <button class="logout-button" onclick="/logout">Logout</button>
+        <div class="header-right">
+            <button class="logout-button" onclick="/logout">Logout</button>
+        </div>
     </div>
-</div>
-
+    <h1>Create a digital postcard!</h1></br></br>
+    <div class="content">
+        <div class="postcard-form">
+            <form th:action="@{/login}" th:object="${postcard}" method="post">
+                <input type="text" placeholder="To" th:field="*{to}" required></br>
+                <input type="text" placeholder="message" th:field="*{message}" required/></br>
+                <input type="submit" value="POST">
+            </form></br></br></br>
+        </div>
+        <div class="postcard">
+            <img src="postcard.png" alt="postcard">
+        </div>
+    </div>
 </body>
 </html>
