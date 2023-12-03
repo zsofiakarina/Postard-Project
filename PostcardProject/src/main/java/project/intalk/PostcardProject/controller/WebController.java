@@ -45,7 +45,7 @@ public class WebController {
             return "registration";
         }
 
-        User newUser = new User(registrationForm.getName(), registrationForm.getEmail(), registrationForm.getPassword());
+        User newUser = new User(registrationForm.getName(), registrationForm.getEmail(), registrationForm.getPassword(), registrationForm.getRole());
         repository.save(newUser);
         return "redirect:/login";
     }

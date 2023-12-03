@@ -1,7 +1,10 @@
 package project.intalk.PostcardProject.model;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import org.hibernate.validator.constraints.Length;
+import project.intalk.PostcardProject.personas.Role;
 
 public class RegistrationForm {
 
@@ -12,6 +15,17 @@ public class RegistrationForm {
     private String password;
 
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public String getName() {
         return name;
