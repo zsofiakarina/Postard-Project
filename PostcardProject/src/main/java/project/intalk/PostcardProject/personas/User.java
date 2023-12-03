@@ -7,9 +7,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private Long id;
-
     private String name;
     private String email;
     private String password;
@@ -17,7 +15,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(String name, String email, String password) {
+    public User(String name, String email, String password, Role role) {
+        this.setName(name);
+        this.setEmail(email);
+        this.setPassword(password);
+        this.setRole(role);
     }
 
     public Long getId() {
