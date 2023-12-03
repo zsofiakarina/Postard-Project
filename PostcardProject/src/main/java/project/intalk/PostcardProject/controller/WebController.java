@@ -58,7 +58,7 @@ public class WebController {
     }
     @PostMapping("/login")
     public String login(@ModelAttribute Login loginForm, Model model) {
-        Optional<User> userOpt = repository.findByEmail(loginForm.getUsername());
+        Optional<User> userOpt = repository.findByUsername(loginForm.getUsername());
         if (userOpt.isPresent()) {
             User user = userOpt.get();
             if (user.getPassword().equals(loginForm.getPassword())) {
