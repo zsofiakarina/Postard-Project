@@ -41,7 +41,7 @@ public class WebController {
         }
 
         Optional<User> existingUser = repository.findByEmail(registrationForm.getEmail());
-        if (existingUser != null) {
+        if (existingUser.isPresent()) {
             model.addAttribute("message", "Ez az e-mail cím már regisztrálva van.");
             return "registration";
         }
@@ -59,7 +59,7 @@ public class WebController {
     }
     @PostMapping("/login")
     public String login(@ModelAttribute LoginForm loginForm, Model model) {
-        Optional<User> userOpt = repository.findByName(loginForm.getUsername());
+        Optional<User> userOpt = repository.findByName(loginForm.getName());
         if (userOpt.isPresent()) {
             User user = userOpt.get();
             if (user.getPassword().equals(loginForm.getPassword())) {

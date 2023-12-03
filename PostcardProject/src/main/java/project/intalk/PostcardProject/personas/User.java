@@ -16,6 +16,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    public User() {
+
+    }
     public User(String name, String email, String password, Role role) {
         this.setName(name);
         this.setEmail(email);
