@@ -84,6 +84,7 @@
         .postcard{
             width: 559px;
             margin-right: 50px;
+            z-index: -1;
         }
         .to{
             width: 300px;
@@ -140,58 +141,59 @@
     <h1>Create a digital postcard!</h1></br></br>
     <div class="content">
         <div class="postcard">
-            <img src="postcard.png" alt="postcard" width="559px">
+            <canvas id="canvas" width="559" height="397"></canvas>
         </div>
         <div class="postcard-form">
             <form th:action="@{/login}" th:object="${postcard}" method="post">
                 <input class="to" type="text" placeholder="To" th:field="*{to}" required></br></br>
-                <input class="text" type="text" placeholder="Message" th:field="*{message}" required/></br></br>
+                <input class="text" id="textInput" type="text" placeholder="Message" th:field="*{message}" required/></br></br>
                 <input class="btn" type="submit" value="POST">
             </form></br></br></br>
         </div>
     </div>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var toInput = document.querySelector('.to');
-            var messageInput = document.querySelector('.text');
-            var postcardImage = document.querySelector('.postcard img');
+        document.addEventListener("DOMContentLoaded", function() {
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+            const input = document.getElementById("textInput");
 
-            // Function to update text on the postcard image
-            function updatePostcard() {
-                var toText = toInput.value;
-                var messageText = messageInput.value;
+            const image = new Image();
+            image.src = 'postcard.png'; // Replace with your image path
+            image.onload = () => {
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            };
 
-                // Create a canvas to draw the image and text
-                var canvas = document.createElement('canvas');
-                var ctx = canvas.getContext('2d');
-                var image = new Image();
-                image.src = postcardImage.src;
+            input.addEventListener("input", function() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-                image.onload = function() {
-                    // Set canvas size to the image size
-                    canvas.width = image.width;
-                    canvas.height = image.height;
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "black";
+                const lineHeight = 28; // Line height of 2 (20px font size x 2)
+                const indent = 290; // Indentation from left
+                const topMargin = 167; // Starting point from top
+                let lines = breakTextIntoLines(input.value, 25);
 
-                    // Draw the image
-                    ctx.drawImage(image, 0, 0);
+                lines.forEach((line, index) => {
+                    ctx.fillText(line, indent, topMargin + (index * lineHeight));
+                });
+            });
 
-                    // Set text styles
-                    ctx.font = '14px Ubuntu';
-                    ctx.fillStyle = 'black';
+            function breakTextIntoLines(text, maxCharacters) {
+                let lines = [];
+                let currentLine = '';
 
-                    // Draw the text
-                    ctx.fillText(toText, 20, 50); // Position for "To"
-                    ctx.fillText(messageText, 20, 100); // Position for "Message"
+                for (let i = 0; i < text.length; i++) {
+                    currentLine += text[i];
+                    if ((i + 1) % maxCharacters === 0 || i === text.length - 1) {
+                        lines.push(currentLine);
+                        currentLine = '';
+                    }
+                }
 
-                    // Replace the image source with the canvas data
-                    postcardImage.src = canvas.toDataURL('image/png');
-                };
+                return lines;
             }
-
-            // Event listeners for input changes
-            toInput.addEventListener('input', updatePostcard);
-            messageInput.addEventListener('input', updatePostcard);
         });
     </script>
 

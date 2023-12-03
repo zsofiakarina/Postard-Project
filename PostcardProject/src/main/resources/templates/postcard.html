@@ -138,14 +138,14 @@
         </div>
     </div>
     <div class="body">
-    <h1>Create a digital postcard!</h1></br></br>
+        </br></br><h1>Create a digital postcard!</h1></br></br>
     <div class="content">
         <div class="postcard">
             <canvas id="canvas" width="559" height="397"></canvas>
         </div>
         <div class="postcard-form">
             <form th:action="@{/login}" th:object="${postcard}" method="post">
-                <input class="to" type="text" placeholder="To" th:field="*{to}" required></br></br>
+                <input class="to" id="toInput" type="text" placeholder="To" th:field="*{to}" required></br></br>
                 <input class="text" id="textInput" type="text" placeholder="Message" th:field="*{message}" required/></br></br>
                 <input class="btn" type="submit" value="POST">
             </form></br></br></br>
@@ -156,29 +156,48 @@
         document.addEventListener("DOMContentLoaded", function() {
             const canvas = document.getElementById("canvas");
             const ctx = canvas.getContext("2d");
-            const input = document.getElementById("textInput");
+            const toInput = document.getElementById("toInput");
+            const textInput = document.getElementById("textInput");
 
             const image = new Image();
-            image.src = 'postcard.png'; // Replace with your image path
+            image.src = 'postcard.png'; // Make sure the path to the image is correct
             image.onload = () => {
                 ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+                updateCanvas();
             };
 
-            input.addEventListener("input", function() {
+            toInput.addEventListener("input", updateCanvas);
+            textInput.addEventListener("input", updateCanvas);
+
+            function updateCanvas() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
+                // Drawing the 'to' field content with "To:" prefix
                 ctx.font = "20px Arial";
-                ctx.fillStyle = "black";
-                const lineHeight = 28; // Line height of 2 (20px font size x 2)
-                const indent = 290; // Indentation from left
-                const topMargin = 167; // Starting point from top
-                let lines = breakTextIntoLines(input.value, 25);
+                ctx.fillStyle = "#1B213E";
+                const toTopMargin = 113; // Adjust as needed
+                const toText = "To: " + toInput.value; // Adding "To:" prefix
+                ctx.fillText(toText, 370, toTopMargin);
 
-                lines.forEach((line, index) => {
-                    ctx.fillText(line, indent, topMargin + (index * lineHeight));
+                // Drawing the 'text' field content
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "#1B213E";
+                const textLineHeight = 28;
+                const textIndent = 290;
+                const textTopMargin = 167;
+                let textLines = breakTextIntoLines(textInput.value, 25);
+                textLines.forEach((line, index) => {
+                    ctx.fillText(line, textIndent, textTopMargin + (index * textLineHeight));
                 });
-            });
+
+                // Drawing the dynamic string at the bottom
+                const userName = "User Name"; // Replace with the actual username
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "#1B213E";
+                const bottomMargin = 380; // Adjust as needed for the position
+                ctx.fillText("XOXO " + userName, 290, bottomMargin);
+            }
 
             function breakTextIntoLines(text, maxCharacters) {
                 let lines = [];
@@ -191,10 +210,10 @@
                         currentLine = '';
                     }
                 }
-
                 return lines;
             }
         });
+
     </script>
 
 </body>
