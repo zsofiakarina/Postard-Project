@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import project.intalk.PostcardProject.domain.LoginForm;
+import project.intalk.PostcardProject.domain.PostcardForm;
 import project.intalk.PostcardProject.model.RegistrationForm;
 import project.intalk.PostcardProject.personas.User;
 import project.intalk.PostcardProject.repository.UserRepository;
@@ -77,7 +78,8 @@ public class WebController {
     }
 
     @GetMapping("/postcard")
-    public String showPostcardPage() {
+    public String showPostcardForm(Model model) {
+        model.addAttribute("postcard", new PostcardForm());
         return "postcard";
     }
 }
