@@ -3,7 +3,7 @@ package project.intalk.PostcardProject.domain;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class Login {
+public class LoginForm {
 
     @NotNull(message = "Provide valid data!")
     @Size(min = 4, max = 18)

@@ -55,16 +55,7 @@
             font-size: 10pt;
             height: 35px;
         }
-        .regform select{
-            width: 300px;
-            border: 0;
-            border-radius: 10px;
-            background-color: #FFFFFF;
-            font-family: 'Ubuntu', sans-serif;
-            font-style: normal;
-            font-size: 10pt;
-            height: 35px;
-        }
+
         .regform input[type=submit]{
             background-color: #F5C832;
             border: 0;
@@ -175,7 +166,7 @@
         <select name="role" id="role">
             <option value="USER">User</option>
             <option value="ADMIN">Admin</option>
-        </select></br></br></br>
+        </select>
         <input type="text" placeholder="Username" th:field="*{name}" required/></br>
         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error!</span></br></br>
         <input type="email" placeholder="Email address" th:field="*{email}" required/></br>

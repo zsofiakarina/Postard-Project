@@ -7,7 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import project.intalk.PostcardProject.domain.Login;
+import project.intalk.PostcardProject.domain.LoginForm;
 import project.intalk.PostcardProject.model.RegistrationForm;
 import project.intalk.PostcardProject.personas.User;
 import project.intalk.PostcardProject.repository.UserRepository;
@@ -53,11 +53,11 @@ public class WebController {
     // Itt a login
     @GetMapping("/login")
     public String showLogin(Model model) {
-        model.addAttribute("loginForm", new Login());
+        model.addAttribute("loginForm", new LoginForm());
         return "login";
     }
     @PostMapping("/login")
-    public String login(@ModelAttribute Login loginForm, Model model) {
+    public String login(@ModelAttribute LoginForm loginForm, Model model) {
         Optional<User> userOpt = repository.findByName(loginForm.getUsername());
         if (userOpt.isPresent()) {
             User user = userOpt.get();

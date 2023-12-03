@@ -3,6 +3,7 @@ package project.intalk.PostcardProject.personas;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "card_user")
 public class User {
 
     @Id
