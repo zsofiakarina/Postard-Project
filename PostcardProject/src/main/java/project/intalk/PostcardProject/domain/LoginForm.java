@@ -7,17 +7,17 @@ public class LoginForm {
 
     @NotNull(message = "Provide valid data!")
     @Size(min = 4, max = 18)
-    private String username;
+    private String name;
 
     @NotNull(message = "Provide valid data!")
     @Size(min = 6, max = 12)
     private String password;
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
