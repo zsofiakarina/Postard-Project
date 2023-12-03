@@ -56,6 +56,20 @@ public class WebController {
         model.addAttribute("loginForm", new Login());
         return "login";
     }
+    @PostMapping("/login")
+    public String login(@ModelAttribute Login loginForm, Model model) {
+        Optional<User> userOpt = repository.findByEmail(loginForm.getUsername());
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            if (user.getPassword().equals(loginForm.getPassword())) {
+                // Sikeres bejelentkezés, átirányítás a főoldalra
+                return "redirect:/main";
+            }
+        }
+        // Sikertelen bejelentkezés, visszatérés a bejelentkezési oldalra hibaüzenettel
+        model.addAttribute("loginError", "Érvénytelen felhasználónév cím vagy jelszó");
+        return "login";
+    }
 
     @GetMapping("/main")
     public String showMainPage() {
