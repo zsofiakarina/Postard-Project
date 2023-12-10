@@ -102,6 +102,11 @@ public class WebController {
         }
         String username = (String) session.getAttribute("username");
         model.addAttribute("username", username);
+
+        //Teljes képeslap galéria az adatbázisból
+        List<Postcard> postcards = postcardRepository.findByName(username);
+        model.addAttribute("postcards", postcards);
+
         return "main";
     }
 

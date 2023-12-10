@@ -67,6 +67,30 @@
             margin: 4px 2px;
             cursor: pointer;
         }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            justify-content: center;
+            margin: 20px auto;
+            max-width: 90%;
+        }
+
+        .canvas-container {
+            width: 559px;
+            height: calc(397px + 30px);
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .date-time {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -85,5 +109,64 @@
             <button class="logout-button" onclick="location.href='/logout'">Logout</button>
         </div>
     </div>
+    <div class="gallery">
+        <div th:each="postcard, iterStat : ${postcards}">
+            <div class="postcard">
+                <div class="canvas-container">
+                    <canvas th:id="'canvas' + ${iterStat.index}" width="559" height="397"></canvas>
+                    <div class="date-time" th:text="${postcard.datetime}">Date: DateTime</div>
+                </div>
+                <span th:text="${postcard.recipient}" class="hidden-recipient" style="display: none;"></span>
+                <span th:text="${postcard.message}" class="hidden-message" style="display: none;"></span>
+                <span th:text="${postcard.name}" class="hidden-name" style="display: none;"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            function breakTextIntoLines(text, maxCharacters) {
+                let lines = [];
+                let currentLine = '';
+                for (let i = 0; i < text.length; i++) {
+                    currentLine += text[i];
+                    if ((i + 1) % maxCharacters === 0 || i === text.length - 1) {
+                        lines.push(currentLine);
+                        currentLine = '';
+                    }
+                }
+                return lines;
+            }
+
+            document.querySelectorAll('.postcard').forEach((postcardElement, index) => {
+                const canvas = postcardElement.querySelector('#canvas' + index);
+                const ctx = canvas.getContext("2d");
+
+                const recipient = postcardElement.querySelector('.hidden-recipient').textContent;
+                const message = postcardElement.querySelector('.hidden-message').textContent;
+                const name = postcardElement.querySelector('.hidden-name').textContent;
+
+                const image = new Image();
+                image.src = 'postcard.png';
+                image.onload = () => {
+                    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+                    ctx.font = "20px Arial";
+                    ctx.fillStyle = "#1B213E";
+                    const lineHeight = 28;
+                    const maxCharactersPerLine = 25;
+                    const textLines = breakTextIntoLines(message, maxCharactersPerLine);
+
+                    ctx.fillText("To: " + recipient, 370, 113);
+                    textLines.forEach((line, i) => {
+                        ctx.fillText(line, 290, 167 + i * lineHeight);
+                    });
+                    ctx.fillText("From: " + name, 290, 380);
+                };
+            });
+        });
+    </script>
+
+
 </body>
 </html>

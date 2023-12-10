@@ -161,7 +161,7 @@
             const textInput = document.getElementById("textInput");
 
             const image = new Image();
-            image.src = 'postcard.png'; // Make sure the path to the image is correct
+            image.src = 'postcard.png';
             image.onload = () => {
                 ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
                 updateCanvas();
@@ -174,14 +174,12 @@
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-                // Drawing the 'to' field content with "To:" prefix
                 ctx.font = "20px Arial";
                 ctx.fillStyle = "#1B213E";
-                const toTopMargin = 113; // Adjust as needed
-                const toText = "To: " + toInput.value; // Adding "To:" prefix
+                const toTopMargin = 113;
+                const toText = "To: " + toInput.value;
                 ctx.fillText(toText, 370, toTopMargin);
 
-                // Drawing the 'text' field content
                 ctx.font = "20px Arial";
                 ctx.fillStyle = "#1B213E";
                 const textLineHeight = 28;
@@ -192,11 +190,10 @@
                     ctx.fillText(line, textIndent, textTopMargin + (index * textLineHeight));
                 });
 
-                // Drawing the dynamic string at the bottom
                 const userName = document.getElementById("username").textContent;
                 ctx.font = "20px Arial";
                 ctx.fillStyle = "#1B213E";
-                const bottomMargin = 380; // Adjust as needed for the position
+                const bottomMargin = 380;
                 ctx.fillText("XOXO " + userName, 290, bottomMargin);
             }
 
@@ -214,8 +211,6 @@
                 return lines;
             }
         });
-
     </script>
-
 </body>
 </html>
