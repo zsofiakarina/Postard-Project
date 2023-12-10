@@ -184,6 +184,7 @@
         <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error!</span></br></br>
         <input type="submit" value="REGISTER">
     </form></br></br></br>
+    <span th:if="${registrationError}" th:text="${registrationError}"></span>
     <p>If already a member, <a href="/login">sign in here</a>!</p>
 </div>
 </body>

@@ -58,9 +58,15 @@ create table user (id bigint not null, email varchar(255), name varchar(255), pa
 2023-12-03 13:34:28.641835+01:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table [*]user (id bigint not null, email varchar(255), name varchar(255), password varchar(255), role varchar(255) check (role in ('USER','ADMIN')), primary key (id))"; expected "identifier"; SQL statement:
 create table user (id bigint not null, email varchar(255), name varchar(255), password varchar(255), role varchar(255) check (role in ('USER','ADMIN')), primary key (id)) [42001-224]
-2023-12-03 13:38:32.048926+01:00 jdbc[3]: exception
+2023-12-03 13:51:28.330792+01:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table [*]user (id bigint not null, email varchar(255), name varchar(255), password varchar(255), role varchar(255) check (role in ('USER','ADMIN')), primary key (id))"; expected "identifier"; SQL statement:
 create table user (id bigint not null, email varchar(255), name varchar(255), password varchar(255), role varchar(255) check (role in ('USER','ADMIN')), primary key (id)) [42001-224]
-2023-12-03 14:01:07.704964+01:00 jdbc[3]: exception
+2023-12-03 13:54:07.919578+01:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table [*]user (id bigint not null, email varchar(255), name varchar(255), password varchar(255), role varchar(255) check (role in ('USER','ADMIN')), primary key (id))"; expected "identifier"; SQL statement:
 create table user (id bigint not null, email varchar(255), name varchar(255), password varchar(255), role varchar(255) check (role in ('USER','ADMIN')), primary key (id)) [42001-224]
+2023-12-03 13:56:10.171502+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select u1_0.id,u1_0.email,u1_0.name,u1_0.password,u1_0.role from [*]user u1_0 where u1_0.email=?"; expected "identifier"; SQL statement:
+select u1_0.id,u1_0.email,u1_0.name,u1_0.password,u1_0.role from user u1_0 where u1_0.email=? [42001-224]
+2023-12-03 13:56:29.770110+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select u1_0.id,u1_0.email,u1_0.name,u1_0.password,u1_0.role from [*]user u1_0 where u1_0.name=?"; expected "identifier"; SQL statement:
+select u1_0.id,u1_0.email,u1_0.name,u1_0.password,u1_0.role from user u1_0 where u1_0.name=? [42001-224]
