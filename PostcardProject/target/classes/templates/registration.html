@@ -151,9 +151,11 @@
     <form th:action="@{/register}" th:object="${registrationForm}" method="post">
         <!-- Szerepválasztó lista -->
         <select name="role" id="role">
+            <option value="">Choose role</option>
             <option value="USER">User</option>
             <option value="ADMIN">Admin</option>
-        </select><br><br>
+        </select><br>
+        <span th:if="${registrationTypeError}" th:text="${registrationTypeError}"></span><br>
 
         <!-- Felhasználónév és hibaüzenet megjelenítése -->
         <input type="text" name="name" placeholder="Username" required/><br>

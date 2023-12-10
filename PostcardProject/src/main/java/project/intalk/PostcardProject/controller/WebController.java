@@ -13,6 +13,7 @@ import project.intalk.PostcardProject.domain.LoginForm;
 import project.intalk.PostcardProject.domain.PostcardForm;
 import project.intalk.PostcardProject.model.RegistrationForm;
 import project.intalk.PostcardProject.personas.Postcard;
+import project.intalk.PostcardProject.personas.Role;
 import project.intalk.PostcardProject.personas.User;
 import project.intalk.PostcardProject.repository.PostcardRepository;
 import project.intalk.PostcardProject.repository.UserRepository;
@@ -60,7 +61,10 @@ public class WebController {
             model.addAttribute("registrationAllError", "Please fill all fields to register!");
             return "registration";
         }
-
+        if (registrationForm.getRole() == null) {
+            model.addAttribute("registrationTypeError", "Please choose a role!");
+            return "registration";
+        }
         // Ellenőrzi, hogy a felhasználónév és az email cím már létezik-e az adatbázisban
         if (userRepository.findByName(registrationForm.getName()).isPresent()) {
             model.addAttribute("registrationUserError", "Please choose another username!");
@@ -125,10 +129,10 @@ public class WebController {
             model.addAttribute("userRole", user.getRole().toString());
 
             // Admin esetén az összes képeslapot lekéri, egyéb esetben csak a jóváhagyottakat
-            if ("ADMIN".equals(user.getRole())) {
+            if (user.getRole() == Role.ADMIN) {
                 postcards = postcardRepository.findAll();
             } else {
-                postcards = postcardRepository.findByStatusAndName("approved", username);
+                postcards = postcardRepository.findByStatus("approved");
             }
             logger.info("Number of postcards fetched: " + postcards.size());
         } else {
