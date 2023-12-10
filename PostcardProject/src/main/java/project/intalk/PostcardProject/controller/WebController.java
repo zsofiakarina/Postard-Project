@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import project.intalk.PostcardProject.domain.LoginForm;
 import project.intalk.PostcardProject.domain.PostcardForm;
@@ -118,7 +119,7 @@ public class WebController {
                 logger.info("Number of postcards fetched: " + postcards.size());
             } else {
                 // Regular user: fetch only their postcards
-                postcards = postcardRepository.findByName(username);
+                postcards = postcardRepository.findByStatusAndName("approved", username);
                 logger.info("Number of postcards fetched: " + postcards.size());
             }
         } else {
@@ -133,6 +134,19 @@ public class WebController {
 
 
         return "main";
+    }
+
+    @PostMapping("/updateStatus/{postcardId}/{newStatus}")
+    public String updatePostcardStatus(@PathVariable Long postcardId,
+                                       @PathVariable String newStatus,
+                                       HttpSession session) {
+        Optional<Postcard> postcardOpt = postcardRepository.findById(postcardId);
+        if (postcardOpt.isPresent()) {
+            Postcard postcard = postcardOpt.get();
+            postcard.setStatus(newStatus);
+            postcardRepository.save(postcard);
+        }
+        return "redirect:/main";
     }
 
 

@@ -127,13 +127,21 @@
                 <div class="canvas-container">
                     <canvas th:id="'canvas' + ${iterStat.index}" width="559" height="397"></canvas>
                     <div class="date-time" th:text="${postcard.datetime}">Date: DateTime</div>
-                    
+
                     <!-- Conditionally render status and approve button for admins -->
                     <div th:if="${userRole} == 'ADMIN'">
                         <div class="status-container">
                             <span th:text="${postcard.status}">Status: Pending</span>
-                            <img th:if="${postcard.status} == 'pending'" src="approve.png" alt="Approved">
-                            <img th:if="${postcard.status} != 'deleted'" src="delete.png" alt="Delete">
+                            <img th:if="${postcard.status} == 'pending'"
+                                 src="approve.png"
+                                 alt="Approved"
+                                 th:onclick="'javascript:updateStatus(' + ${postcard.id} + ', \'approved\');'">
+
+                            <img th:if="${postcard.status} != 'deleted'"
+                                 src="delete.png"
+                                 alt="Delete"
+                                 th:onclick="'javascript:updateStatus(' + ${postcard.id} + ', \'deleted\');'">
+
                         </div>
                     </div>
 
@@ -193,6 +201,20 @@
                 };
             });
         });
+
+            function updateStatus(postcardId, newStatus) {
+            fetch('/updateStatus/' + postcardId + '/' + newStatus, {
+                method: 'POST',
+                // Include any necessary headers, authentication, etc.
+            }).then(response => {
+                if (response.ok) {
+                    window.location.reload(); // Reload page to reflect changes
+                } else {
+                    alert('Error updating status');
+                }
+            });
+        }
+
     </script>
 
 
