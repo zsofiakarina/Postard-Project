@@ -122,6 +122,7 @@
     </style>
 </head>
 <body>
+<span id="username" style="display:none;" th:text="${username}"></span>
 <div class="header">
     <div class="header-left">
         <img src="claus.png" alt="Profile Picture" class="profile-pic">
@@ -192,7 +193,7 @@
                 });
 
                 // Drawing the dynamic string at the bottom
-                const userName = "User Name"; // Replace with the actual username
+                const userName = document.getElementById("username").textContent;
                 ctx.font = "20px Arial";
                 ctx.fillStyle = "#1B213E";
                 const bottomMargin = 380; // Adjust as needed for the position

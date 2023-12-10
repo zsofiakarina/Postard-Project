@@ -176,37 +176,15 @@
             <option value="USER">User</option>
             <option value="ADMIN">Admin</option>
         </select></br></br></br>
-        <input type="text" placeholder="Username" th:field="*{name}" required/></br>
-        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error!</span></br></br>
-        <input type="email" placeholder="Email address" th:field="*{email}" required/></br>
-        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error!</span></br></br>
-        <input type="password" placeholder="Password" th:field="*{password}"/></br>
-        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error!</span></br></br>
+        <input type="text" placeholder="Username" required/></br>
+        <span th:if="${registrationUserError}" th:text="${registrationUserError}">Name Error!</span></br></br>
+        <input type="email" placeholder="Email address" required/></br>
+        <span th:if="${registrationEmailError}" th:text="${registrationEmailError}">Email Error!</span></br></br>
+        <input type="password" placeholder="Password" required/></br></br></br>
         <input type="submit" value="REGISTER">
     </form></br></br></br>
-    <span th:if="${registrationError}" th:text="${registrationError}"></span>
+    <span th:if="${registrationAllError}" th:text="${registrationAllError}"></span>
     <p>If already a member, <a href="/login">sign in here</a>!</p>
 </div>
 </body>
-
-<!--<body>
-<h1>Regisztráció</h1>
-<form th:action="@{/register}" th:object="${registrationForm}" method="post">
-    <div>
-        <label for="username">Felhasználónév:</label>
-        <input type="text" id="username" th:field="*{name}" required>
-    </div>
-    <div>
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" th:field="*{email}" required>
-    </div>
-    <div>
-        <label for="password">Jelszó:</label>
-        <input type="password" id="password" th:field="*{password}" required>
-    </div>
-    <div>
-        <button type="submit">Regisztrálás</button>
-    </div>
-</form>
-</body>-->
 </html>

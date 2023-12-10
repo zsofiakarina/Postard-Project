@@ -73,16 +73,16 @@
     <div class="header">
         <div class="header-left">
             <img src="claus.png" alt="Profile Picture" class="profile-pic">
-            <span>User Name</span>
+            <span th:text="${username}">User Name</span>
         </div>
 
         <div class="header-center">
-            <a href="/main">Gallery</a>
+            <a href="/main">Own Gallery</a>
             <a href="/postcard">Postcard</a>
         </div>
 
         <div class="header-right">
-            <button class="logout-button" onclick="/logout">Logout</button>
+            <button class="logout-button" onclick="location.href='/logout'">Logout</button>
         </div>
     </div>
 </body>

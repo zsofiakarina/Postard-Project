@@ -47,19 +47,19 @@ public class WebController {
     @PostMapping("/register")
     public String register(@ModelAttribute RegistrationForm registrationForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("registrationError", "Kérjük, töltse ki az összes mezőt.");
+            model.addAttribute("registrationAllError", "Please fill all fields to register!");
             return "registration";
         }
 
         Optional<User> existingName = userRepository.findByName(registrationForm.getName());
         if (existingName.isPresent()) {
-            model.addAttribute("registrationError", "Ez a felhasználónév már foglalt..");
+            model.addAttribute("registrationUserError", "Please choose another username!");
             return "registration";
         }
 
         Optional<User> existingEmail = userRepository.findByEmail(registrationForm.getEmail());
         if (existingEmail.isPresent()) {
-            model.addAttribute("registrationError", "Ez az e-mail cím már regisztrálva van.");
+            model.addAttribute("registrationEmailError", "Please use another email address or sign in!");
             return "registration";
         }
 
@@ -89,7 +89,7 @@ public class WebController {
             }
         }
         // Sikertelen bejelentkezés, visszatérés a bejelentkezési oldalra hibaüzenettel
-        model.addAttribute("loginError", "Érvénytelen felhasználónév vagy jelszó");
+        model.addAttribute("loginError", "Invalid username or password!");
         return "login";
     }
 
@@ -101,7 +101,9 @@ public class WebController {
     }
 
     @GetMapping("/postcard")
-    public String showPostcardForm(Model model) {
+    public String showPostcardForm(HttpSession session, Model model) {
+        String username = (String) session.getAttribute("username");
+        model.addAttribute("username", username);
         model.addAttribute("postcardForm", new PostcardForm());
         return "postcard";
     }

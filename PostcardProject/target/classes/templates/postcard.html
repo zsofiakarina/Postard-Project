@@ -122,19 +122,20 @@
     </style>
 </head>
 <body>
+<span id="username" style="display:none;" th:text="${username}"></span>
 <div class="header">
     <div class="header-left">
         <img src="claus.png" alt="Profile Picture" class="profile-pic">
-        <span>User Name</span>
+        <span th:text="${username}">User Name</span>
     </div>
 
     <div class="header-center">
-        <a href="/main">Gallery</a>
+        <a href="/gallery">Gallery</a>
         <a href="/postcard">Postcard</a>
     </div>
 
     <div class="header-right">
-        <button class="logout-button" onclick="/logout">Logout</button>
+        <button class="logout-button" onclick="location.href='/logout'">Logout</button>
     </div>
 </div>
 <div class="body">
@@ -144,8 +145,8 @@
             <canvas id="canvas" width="559" height="397"></canvas>
         </div>
         <div class="postcard-form">
-            <form th:action="@{/login}" th:object="${postcard}" method="post">
-                <input class="to" id="toInput" type="text" placeholder="To" th:field="*{to}" required></br></br>
+            <form th:action="@{/createPostcard}" th:object="${postcardForm}" method="post">
+                <input class="to" id="toInput" type="text" placeholder="To" th:field="*{recipient}" required></br></br>
                 <input class="text" id="textInput" type="text" placeholder="Message" th:field="*{message}" required/></br></br>
                 <input class="btn" type="submit" value="POST">
             </form></br></br></br>
@@ -192,7 +193,7 @@
                 });
 
                 // Drawing the dynamic string at the bottom
-                const userName = "User Name"; // Replace with the actual username
+                const userName = document.getElementById("username").textContent;
                 ctx.font = "20px Arial";
                 ctx.fillStyle = "#1B213E";
                 const bottomMargin = 380; // Adjust as needed for the position

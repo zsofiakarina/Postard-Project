@@ -154,12 +154,11 @@
     <div class="loginform">
         <h1>It's time to sign in!</h1></br></br></br>
         <form th:action="@{/login}" th:object="${loginForm}" method="post">
-            <input type="text" placeholder="Username" th:field="*{name}" required></br>
-            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error!</span></br></br>
-            <input type="password" placeholder="Password" th:field="*{password}" required/></br>
-            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error!</span></br></br>
+            <input type="text" placeholder="Username" th:field="*{name}" required></br></br></br>
+            <input type="password" placeholder="Password" th:field="*{password}" required/></br></br></br>
             <input type="submit" value="LOGIN">
         </form></br></br></br>
+        <span th:if="${loginError}" th:text="${loginError}"></span>
         <p>If not a member, <a href="/register">register here</a>!</p>
     </div>
 </body>
