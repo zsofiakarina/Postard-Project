@@ -17,6 +17,8 @@ public class Postcard {
 
     private String datetime;
 
+    private String status;
+
     public Long getId() {
         return id;
     }
@@ -55,5 +57,13 @@ public class Postcard {
 
     public void setDatetime(String datetime) {
         this.datetime = datetime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

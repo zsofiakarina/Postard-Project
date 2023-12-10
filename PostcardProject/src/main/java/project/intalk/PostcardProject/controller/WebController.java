@@ -131,6 +131,7 @@ public class WebController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         String formattedDate = dateFormat.format(Calendar.getInstance().getTime());
         postcard.setDatetime(formattedDate);
+        postcard.setStatus("pending");
         postcardRepository.save(postcard);
         return "redirect:/gallery";
     }
