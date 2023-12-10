@@ -97,6 +97,9 @@ public class WebController {
 
     @GetMapping("/main")
     public String showMainPage(HttpSession session, Model model) {
+        if (session.getAttribute("username") == null) {
+            return "redirect:/login";
+        }
         String username = (String) session.getAttribute("username");
         model.addAttribute("username", username);
         return "main";
@@ -104,6 +107,9 @@ public class WebController {
 
     @GetMapping("/postcard")
     public String showPostcardForm(HttpSession session, Model model) {
+        if (session.getAttribute("username") == null) {
+            return "redirect:/login";
+        }
         String username = (String) session.getAttribute("username");
         model.addAttribute("username", username);
         model.addAttribute("postcardForm", new PostcardForm());
@@ -126,6 +132,9 @@ public class WebController {
 
     @GetMapping("/gallery")
     public String showGalleryPage(HttpSession session, Model model) {
+        if (session.getAttribute("username") == null) {
+            return "redirect:/login";
+        }
         String username = (String) session.getAttribute("username");
         List<Postcard> postcards = postcardRepository.findByName(username);
         model.addAttribute("postcards", postcards);
