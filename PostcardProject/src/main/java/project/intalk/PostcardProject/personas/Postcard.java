@@ -15,6 +15,8 @@ public class Postcard {
     private String message;
     private String name;
 
+    private String datetime;
+
     public Long getId() {
         return id;
     }
@@ -45,5 +47,13 @@ public class Postcard {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
     }
 }

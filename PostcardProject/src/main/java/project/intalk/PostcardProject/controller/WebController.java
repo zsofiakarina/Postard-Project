@@ -16,6 +16,8 @@ import project.intalk.PostcardProject.personas.User;
 import project.intalk.PostcardProject.repository.PostcardRepository;
 import project.intalk.PostcardProject.repository.UserRepository;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -115,6 +117,9 @@ public class WebController {
         postcard.setRecipient(postcardForm.getRecipient());
         postcard.setMessage(postcardForm.getMessage());
         postcard.setName(username);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+        String formattedDate = dateFormat.format(Calendar.getInstance().getTime());
+        postcard.setDatetime(formattedDate);
         postcardRepository.save(postcard);
         return "redirect:/gallery";
     }
