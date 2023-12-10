@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PostcardRepository extends JpaRepository<Postcard, Long> {
     List<Postcard> findByName(String name);
+    List<Postcard> findAll();
 }
+

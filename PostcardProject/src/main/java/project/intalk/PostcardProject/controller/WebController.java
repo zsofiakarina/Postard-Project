@@ -18,8 +18,10 @@ import project.intalk.PostcardProject.repository.UserRepository;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 @Controller
@@ -103,12 +105,36 @@ public class WebController {
         String username = (String) session.getAttribute("username");
         model.addAttribute("username", username);
 
-        //Teljes képeslap galéria az adatbázisból
-        List<Postcard> postcards = postcardRepository.findByName(username);
+        // Fetch the user details
+        Optional<User> userOpt = userRepository.findByName(username);
+        List<Postcard> postcards;
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            model.addAttribute("userRole", user.getRole().toString());
+            // Check if user is an admin
+            if ("ADMIN".equals(user.getRole())) {
+                // Admin: fetch all postcards
+                postcards = postcardRepository.findAll();
+                logger.info("Number of postcards fetched: " + postcards.size());
+            } else {
+                // Regular user: fetch only their postcards
+                postcards = postcardRepository.findByName(username);
+                logger.info("Number of postcards fetched: " + postcards.size());
+            }
+        } else {
+            // Handle error case if user not found
+            postcards = Collections.emptyList();
+        }
+
         model.addAttribute("postcards", postcards);
+
+        User user = userOpt.get();
+        logger.info("User role: " + user.getRole());
+
 
         return "main";
     }
+
 
     @GetMapping("/postcard")
     public String showPostcardForm(HttpSession session, Model model) {

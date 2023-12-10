@@ -127,10 +127,21 @@
                 <div class="canvas-container">
                     <canvas th:id="'canvas' + ${iterStat.index}" width="559" height="397"></canvas>
                     <div class="date-time" th:text="${postcard.datetime}">Date: DateTime</div>
-                    <div class="status-container">
-                        <span th:text="${postcard.status}">Status: Pending</span>
-                        <img src="approve.png" alt="Approved">
-                        <img src="delete.png" alt="Delete">
+
+                    <!-- Conditionally render status and approve button for admins -->
+                    <div th:if="${userRole} == 'ADMIN'">
+                        <div class="status-container">
+                            <span th:text="${postcard.status}">Status: Pending</span>
+                            <img th:if="${postcard.status} == 'pending'" src="approve.png" alt="Approved">
+                            <img th:if="${postcard.status} != 'deleted'" src="delete.png" alt="Delete">
+                        </div>
+                    </div>
+
+                    <!-- Show delete button for normal user only if they are the creator -->
+                    <div th:if="${userRole} == 'USER' and ${username} == ${postcard.name}">
+                        <div class="status-container">
+                            <img src="delete.png" alt="Delete">
+                        </div>
                     </div>
                 </div>
                 <span th:text="${postcard.recipient}" class="hidden-recipient" style="display: none;"></span>
