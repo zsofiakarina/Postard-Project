@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <title>Postcard Gallery</title>
     <style>
+        /* Alap stílusok meghatározása */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
         }
+
+        /* Fejléc stílusainak beállítása */
         .header {
             display: flex;
             justify-content: space-between;
@@ -67,6 +70,8 @@
             margin: 4px 2px;
             cursor: pointer;
         }
+
+        /* Galéria stílusának beállítása */
         .gallery {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -76,27 +81,29 @@
             max-width: 90%;
         }
         .canvas-container {
-            background-color: #FBE3A5; /* Set background color */
+            background-color: #FBE3A5;
             width: 559px;
-            height: calc(397px + 30px); /* Increase height to accommodate new row */
+            height: calc(397px + 30px);
             margin-bottom: 10px;
             position: relative;
         }
+
+        /* Dátum és idő, valamint státusz stílusának beállítása */
         .date-time {
             position: absolute;
             bottom: 0;
-            left: 0; /* Align to the left */
+            left: 0;
             background-color: rgba(255, 255, 255, 0.8);
-            padding: 5px 10px; /* Adjust padding as needed */
+            padding: 5px 10px;
         }
         .status-container {
             position: absolute;
             bottom: 0;
-            right: 0; /* Align to the right */
+            right: 0;
             display: flex;
             align-items: center;
             background-color: rgba(255, 255, 255, 0.8);
-            padding: 5px 10px; /* Adjust padding as needed */
+            padding: 5px 10px;
         }
         .status-container img {
             width: 20px;
@@ -106,117 +113,123 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-left">
-            <img src="claus.png" alt="Profile Picture" class="profile-pic">
-            <span th:text="${username}">User Name</span>
-        </div>
-
-        <div class="header-center">
-            <a href="/main">Gallery</a>
-            <a href="/postcard">Create Postcard</a>
-        </div>
-
-        <div class="header-right">
-            <button class="logout-button" onclick="location.href='/logout'">Logout</button>
-        </div>
+<!-- Fejléc rész -->
+<div class="header">
+    <div class="header-left">
+        <img src="claus.png" alt="Profile Picture" class="profile-pic">
+        <span th:text="${username}">User Name</span>
     </div>
-    <div class="gallery">
-        <div th:each="postcard, iterStat : ${postcards}">
-            <div class="postcard">
-                <div class="canvas-container">
-                    <canvas th:id="'canvas' + ${iterStat.index}" width="559" height="397"></canvas>
-                    <div class="date-time" th:text="${postcard.datetime}">Date: DateTime</div>
 
-                    <!-- Conditionally render status and approve button for admins -->
-                    <div th:if="${userRole} == 'ADMIN'">
-                        <div class="status-container">
-                            <span th:text="${postcard.status}">Status: Pending</span>
-                            <img th:if="${postcard.status} == 'pending'"
-                                 src="approve.png"
-                                 alt="Approved"
-                                 th:onclick="'javascript:updateStatus(' + ${postcard.id} + ', \'approved\');'">
+    <div class="header-center">
+        <a href="/main">Gallery</a>
+        <a href="/postcard">Create Postcard</a>
+    </div>
 
-                            <img th:if="${postcard.status} != 'deleted'"
-                                 src="delete.png"
-                                 alt="Delete"
-                                 th:onclick="'javascript:updateStatus(' + ${postcard.id} + ', \'deleted\');'">
+    <div class="header-right">
+        <button class="logout-button" onclick="location.href='/logout'">Logout</button>
+    </div>
+</div>
 
-                        </div>
-                    </div>
+<!-- Galéria megjelenítése -->
+<div class="gallery">
+    <!-- Képeslapok dinamikus megjelenítése -->
+    <div th:each="postcard, iterStat : ${postcards}">
+        <div class="postcard">
+            <div class="canvas-container">
+                <!-- Vászon elem a képeslapok megjelenítéséhez -->
+                <canvas th:id="'canvas' + ${iterStat.index}" width="559" height="397"></canvas>
+                <div class="date-time" th:text="${postcard.datetime}">Date: DateTime</div>
 
-                    <!-- Show delete button for normal user only if they are the creator -->
-                    <div th:if="${userRole} == 'USER' and ${username} == ${postcard.name}">
-                        <div class="status-container">
-                            <img src="delete.png" alt="Delete">
-                        </div>
+                <!-- Adminisztrátori jogosultságok kezelése -->
+                <div th:if="${userRole} == 'ADMIN'">
+                    <div class="status-container">
+                        <span th:text="${postcard.status}">Status: Pending</span>
+                        <img th:if="${postcard.status} == 'pending'"
+                             src="approve.png"
+                             alt="Approved"
+                             th:onclick="'javascript:updateStatus(' + ${postcard.id} + ', \'approved\');'">
+                        <img th:if="${postcard.status} != 'deleted'"
+                             src="delete.png"
+                             alt="Delete"
+                             th:onclick="'javascript:updateStatus(' + ${postcard.id} + ', \'deleted\');'">
                     </div>
                 </div>
-                <span th:text="${postcard.recipient}" class="hidden-recipient" style="display: none;"></span>
-                <span th:text="${postcard.message}" class="hidden-message" style="display: none;"></span>
-                <span th:text="${postcard.name}" class="hidden-name" style="display: none;"></span>
+
+                <!-- Normál felhasználói jogosultságok kezelése -->
+                <div th:if="${userRole} == 'USER' and ${username} == ${postcard.name}">
+                    <div class="status-container">
+                        <img src="delete.png" alt="Delete">
+                    </div>
+                </div>
             </div>
+            <!-- Rejtett információk a vászonhoz -->
+            <span th:text="${postcard.recipient}" class="hidden-recipient" style="display: none;"></span>
+            <span th:text="${postcard.message}" class="hidden-message" style="display: none;"></span>
+            <span th:text="${postcard.name}" class="hidden-name" style="display: none;"></span>
         </div>
     </div>
+</div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            function breakTextIntoLines(text, maxCharacters) {
-                let lines = [];
-                let currentLine = '';
-                for (let i = 0; i < text.length; i++) {
-                    currentLine += text[i];
-                    if ((i + 1) % maxCharacters === 0 || i === text.length - 1) {
-                        lines.push(currentLine);
-                        currentLine = '';
-                    }
+<script>
+    // A dokumentum betöltődésekor végrehajtandó script
+    document.addEventListener("DOMContentLoaded", function() {
+        // Szöveg sortörés funkció
+        function breakTextIntoLines(text, maxCharacters) {
+            let lines = [];
+            let currentLine = '';
+            for (let i = 0; i < text.length; i++) {
+                currentLine += text[i];
+                if ((i + 1) % maxCharacters === 0 || i === text.length - 1) {
+                    lines.push(currentLine);
+                    currentLine = '';
                 }
-                return lines;
             }
-
-            document.querySelectorAll('.postcard').forEach((postcardElement, index) => {
-                const canvas = postcardElement.querySelector('#canvas' + index);
-                const ctx = canvas.getContext("2d");
-
-                const recipient = postcardElement.querySelector('.hidden-recipient').textContent;
-                const message = postcardElement.querySelector('.hidden-message').textContent;
-                const name = postcardElement.querySelector('.hidden-name').textContent;
-
-                const image = new Image();
-                image.src = 'postcard.png';
-                image.onload = () => {
-                    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-                    ctx.font = "20px Arial";
-                    ctx.fillStyle = "#1B213E";
-                    const lineHeight = 28;
-                    const maxCharactersPerLine = 25;
-                    const textLines = breakTextIntoLines(message, maxCharactersPerLine);
-
-                    ctx.fillText("To: " + recipient, 370, 113);
-                    textLines.forEach((line, i) => {
-                        ctx.fillText(line, 290, 167 + i * lineHeight);
-                    });
-                    ctx.fillText("From: " + name, 290, 380);
-                };
-            });
-        });
-
-            function updateStatus(postcardId, newStatus) {
-            fetch('/updateStatus/' + postcardId + '/' + newStatus, {
-                method: 'POST',
-                // Include any necessary headers, authentication, etc.
-            }).then(response => {
-                if (response.ok) {
-                    window.location.reload(); // Reload page to reflect changes
-                } else {
-                    alert('Error updating status');
-                }
-            });
+            return lines;
         }
 
-    </script>
+        // Minden képeslapra vonatkozóan
+        document.querySelectorAll('.postcard').forEach((postcardElement, index) => {
+            const canvas = postcardElement.querySelector('#canvas' + index);
+            const ctx = canvas.getContext("2d");
 
+            // Képeslap információk kinyerése
+            const recipient = postcardElement.querySelector('.hidden-recipient').textContent;
+            const message = postcardElement.querySelector('.hidden-message').textContent;
+            const name = postcardElement.querySelector('.hidden-name').textContent;
 
+            // Képeslap képének betöltése és rajzolása
+            const image = new Image();
+            image.src = 'postcard.png';
+            image.onload = () => {
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+                ctx.font = "20px Arial";
+                ctx.fillStyle = "#1B213E";
+                const lineHeight = 28;
+                const maxCharactersPerLine = 25;
+                const textLines = breakTextIntoLines(message, maxCharactersPerLine);
+
+                ctx.fillText("To: " + recipient, 370, 113);
+                textLines.forEach((line, i) => {
+                    ctx.fillText(line, 290, 167 + i * lineHeight);
+                });
+                ctx.fillText("From: " + name, 290, 380);
+            };
+        });
+    });
+
+    // Képeslap státuszának frissítése
+    function updateStatus(postcardId, newStatus) {
+        fetch('/updateStatus/' + postcardId + '/' + newStatus, {
+            method: 'POST',
+            // Szükséges fejlécek és hitelesítés hozzáadása
+        }).then(response => {
+            if (response.ok) {
+                window.location.reload(); // Oldal újratöltése a változások tükrözéséhez
+            } else {
+                alert('Error updating status');
+            }
+        });
+    }
+</script>
 </body>
 </html>

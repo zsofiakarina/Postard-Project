@@ -1,20 +1,24 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
     <style>
+        /* Alap stílusok meghatározása */
         body {
             background-color: #1B213E;
         }
+
+        /* Link szín beállítások */
         a {
             color: #F5C832;
-
         }
-        .regform{
+
+        /* Regisztrációs űrlap stílusának beállítása */
+        .regform {
             display: flex;
             font-family: 'Ubuntu', sans-serif;
             color: #FFFFFF;
-            font-style: normal;
             position: absolute;
             overflow: hidden;
             height: 100vh;
@@ -25,59 +29,33 @@
             align-content: center;
             text-align: center;
         }
-        .regform input[type=text]{
+
+        /* Input mezők és választólista stílusának beállítása */
+        .regform input[type=text], .regform input[type=email], .regform input[type=password], .regform select {
             width: 300px;
             border: 0;
             border-radius: 10px;
             background-color: #FFFFFF;
             font-family: 'Ubuntu', sans-serif;
-            font-style: normal;
             font-size: 10pt;
             height: 35px;
         }
-        .regform input[type=email]{
-            width: 300px;
-            border: 0;
-            border-radius: 10px;
-            background-color: #FFFFFF;
-            font-family: 'Ubuntu', sans-serif;
-            font-style: normal;
-            font-size: 10pt;
-            height: 35px;
-        }
-        .regform input[type=password]{
-            width: 300px;
-            border: 0;
-            border-radius: 10px;
-            background-color: #FFFFFF;
-            font-family: 'Ubuntu', sans-serif;
-            font-style: normal;
-            font-size: 10pt;
-            height: 35px;
-        }
-        .regform select{
-            width: 300px;
-            border: 0;
-            border-radius: 10px;
-            background-color: #FFFFFF;
-            font-family: 'Ubuntu', sans-serif;
-            font-style: normal;
-            font-size: 10pt;
-            height: 35px;
-        }
-        .regform input[type=submit]{
+
+        /* Beküldés gomb stílusának beállítása */
+        .regform input[type=submit] {
             background-color: #F5C832;
             border: 0;
             font-family: 'Ubuntu', sans-serif;
-            font-style: normal;
             font-weight: bold;
             font-size: 10pt;
             border-radius: 10px;
-            padding: 10px 0 10px 0;
+            padding: 10px 0;
             position: absolute;
             width: 100px;
         }
     </style>
+
+    <!-- Az alábbi script felel a hópelyhek hullásáért, Csanád webfejlesztés projektmunkájából származik. -->
     <script type="text/javascript">
         var speed=30, leaves=10, body;
         var dx=[], xp=[], yp=[], am=[], dy=[], le=[];
@@ -95,7 +73,6 @@
         }
 
         addLoadEvent(initGSF);
-
         function initGSF() { if (document.getElementById) {
             body=document.createElement("gs-falling");
             body.style.position="fixed";
@@ -170,20 +147,30 @@
 </head>
 <body>
 <div class="regform">
-    <h1>It's time to register!</h1></br></br></br>
+    <h1>It's time to register!</h1>
     <form th:action="@{/register}" th:object="${registrationForm}" method="post">
+        <!-- Szerepválasztó lista -->
         <select name="role" id="role">
             <option value="USER">User</option>
             <option value="ADMIN">Admin</option>
-        </select></br></br></br>
-        <input type="text" name="name" placeholder="Username" required/></br>
-        <span th:if="${registrationUserError}" th:text="${registrationUserError}">Name Error!</span></br></br>
-        <input type="email" name="email" placeholder="Email address" required/></br>
-        <span th:if="${registrationEmailError}" th:text="${registrationEmailError}">Email Error!</span></br></br>
-        <input type="password" name="password" placeholder="Password" required/></br></br></br>
+        </select><br><br>
+
+        <!-- Felhasználónév és hibaüzenet megjelenítése -->
+        <input type="text" name="name" placeholder="Username" required/><br>
+        <span th:if="${registrationUserError}" th:text="${registrationUserError}"></span><br>
+
+        <!-- Email cím és hibaüzenet megjelenítése -->
+        <input type="email" name="email" placeholder="Email address" required/><br>
+        <span th:if="${registrationEmailError}" th:text="${registrationEmailError}"></span><br>
+
+        <!-- Jelszó mező -->
+        <input type="password" name="password" placeholder="Password" required/><br><br>
+
+        <!-- Beküldés gomb -->
         <input type="submit" value="REGISTER">
-    </form>
-</br></br></br>
+    </form><br><br><br>
+
+    <!-- További hibaüzenetek és navigációs link -->
     <span th:if="${registrationAllError}" th:text="${registrationAllError}"></span>
     <p>If already a member, <a href="/login">sign in here</a>!</p>
 </div>

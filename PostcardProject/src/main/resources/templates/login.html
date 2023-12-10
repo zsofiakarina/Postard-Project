@@ -4,18 +4,21 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <style>
+        /* Alap stílusok meghatározása */
         body {
             background-color: #1B213E;
         }
+
+        /* Link szín beállítások */
         a {
             color: #F5C832;
-
         }
-        .loginform{
+
+        /* Belépési form stílusának beállítása */
+        .loginform {
             display: flex;
             font-family: 'Ubuntu', sans-serif;
             color: #FFFFFF;
-            font-style: normal;
             position: absolute;
             overflow: hidden;
             height: 100vh;
@@ -26,40 +29,33 @@
             align-content: center;
             text-align: center;
         }
-        .loginform input[type=text]{
+
+        /* Input mezők stílusának beállítása */
+        .loginform input[type=text], .loginform input[type=password] {
             width: 300px;
             border: 0;
             border-radius: 10px;
             background-color: #FFFFFF;
             font-family: 'Ubuntu', sans-serif;
-            font-style: normal;
-            font-size: 10pt;
-            height: 35px;
-        }
-        .loginform input[type=password]{
-            width: 300px;
-            border: 0;
-            border-radius: 10px;
-            background-color: #FFFFFF;
-            font-family: 'Ubuntu', sans-serif;
-            font-style: normal;
             font-size: 10pt;
             height: 35px;
         }
 
-        .loginform input[type=submit]{
+        /* Beküldés gomb stílusának beállítása */
+        .loginform input[type=submit] {
             background-color: #F5C832;
             border: 0;
             font-family: 'Ubuntu', sans-serif;
-            font-style: normal;
             font-weight: bold;
             font-size: 10pt;
             border-radius: 10px;
-            padding: 10px 0 10px 0;
+            padding: 10px 0;
             position: absolute;
             width: 100px;
         }
     </style>
+
+    <!-- Az alábbi script felel a hópelyhek hullásáért, Csanád webfejlesztés projektmunkájából származik. -->
     <script type="text/javascript">
         var speed=30, leaves=10, body;
         var dx=[], xp=[], yp=[], am=[], dy=[], le=[];
@@ -77,7 +73,6 @@
         }
 
         addLoadEvent(initGSF);
-
         function initGSF() { if (document.getElementById) {
             body=document.createElement("gs-falling");
             body.style.position="fixed";
@@ -151,15 +146,16 @@
     </script>
 </head>
 <body>
-    <div class="loginform">
-        <h1>It's time to sign in!</h1></br></br></br>
-        <form th:action="@{/login}" th:object="${loginForm}" method="post">
-            <input type="text" placeholder="Username" th:field="*{name}" required></br></br></br>
-            <input type="password" placeholder="Password" th:field="*{password}" required/></br></br></br>
-            <input type="submit" value="LOGIN">
-        </form></br></br></br>
-        <span th:if="${loginError}" th:text="${loginError}"></span>
-        <p>If not a member, <a href="/register">register here</a>!</p>
-    </div>
+<!-- Belépési form -->
+<div class="loginform">
+    <h1>It's time to sign in!</h1>
+    <form th:action="@{/login}" th:object="${loginForm}" method="post">
+        <input type="text" placeholder="Username" th:field="*{name}" required><br><br>
+        <input type="password" placeholder="Password" th:field="*{password}" required/><br><br>
+        <input type="submit" value="LOGIN">
+    </form><br><br><br>
+    <span th:if="${loginError}" th:text="${loginError}"></span>
+    <p>If not a member, <a href="/register">register here</a>!</p>
+</div>
 </body>
 </html>

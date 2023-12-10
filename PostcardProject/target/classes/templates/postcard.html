@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <title>Send a Postcard</title>
     <style>
+        /* Alap stílusok meghatározása */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
         }
+
+        /* Fejléc stílusának beállítása */
         .header {
             display: flex;
             justify-content: space-between;
@@ -25,10 +28,11 @@
             top: 0;
             z-index: 100;
         }
-        .header-left {
+
+        /* A fejléc részeihez tartozó stílusok */
+        .header-left, .header-center, .header-right {
             display: flex;
             align-items: center;
-            font-weight: bold;
         }
         .profile-pic {
             border-radius: 50%;
@@ -36,21 +40,12 @@
             height: 50px;
             width: 50px;
         }
-        .header-center {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
         .header-center a {
             margin: 0 10px;
             padding: 20px 20px;
             text-decoration: none;
             font-weight: bolder;
             color: #F5C832;
-        }
-        .header-right {
-            display: flex;
-            align-items: center;
         }
         .logout-button {
             background-color: #F5C832;
@@ -67,6 +62,8 @@
             margin: 4px 2px;
             cursor: pointer;
         }
+
+        /* Tartalom és képeslap-form részek stílusának beállítása */
         .body{
             display: flex;
             flex-direction: column;
@@ -78,51 +75,46 @@
             justify-content: center;
             align-items: center;
         }
-        .postcard-form{
+        .postcard-form {
             width: 300px;
         }
-        .postcard{
+        .postcard {
             width: 559px;
             margin-right: 50px;
             z-index: -1;
         }
-        .to{
+
+        /* Input és gomb elemek stílusának beállítása */
+        .to, .text {
             width: 300px;
             border: 0;
             border-radius: 10px;
             background-color: #FBE3A5;
             font-family: 'Ubuntu', sans-serif;
-            font-style: normal;
             font-size: 10pt;
             height: 35px;
         }
-        .text{
-            width: 300px;
-            border: 0;
-            border-radius: 10px;
-            background-color: #FBE3A5;
-            font-family: 'Ubuntu', sans-serif;
-            font-style: normal;
-            font-size: 10pt;
+        .text {
             height: 150px;
         }
-        .btn{
+        .btn {
             background-color: #F5C832;
             border: 0;
             font-family: 'Ubuntu', sans-serif;
-            font-style: normal;
             font-weight: bold;
             font-size: 10pt;
             border-radius: 10px;
-            padding: 10px 0 10px 0;
+            padding: 10px 0;
             position: absolute;
             width: 100px;
         }
-
     </style>
 </head>
 <body>
+<!-- Rejtett felhasználónév, amit a script használ -->
 <span id="username" style="display:none;" th:text="${username}"></span>
+
+<!-- Fejléc rész -->
 <div class="header">
     <div class="header-left">
         <img src="claus.png" alt="Profile Picture" class="profile-pic">
@@ -138,79 +130,91 @@
         <button class="logout-button" onclick="location.href='/logout'">Logout</button>
     </div>
 </div>
+
+<!-- Képeslap létrehozásának tartalmi része -->
 <div class="body">
-    </br></br><h1>Create a digital postcard!</h1></br></br>
+    <br><br><h1>Create a digital postcard!</h1><br><br>
     <div class="content">
         <div class="postcard">
             <canvas id="canvas" width="559" height="397"></canvas>
         </div>
         <div class="postcard-form">
+            <!-- Űrlap a képeslap adatainak beküldéséhez -->
             <form th:action="@{/createPostcard}" th:object="${postcardForm}" method="post">
-                <input class="to" id="toInput" type="text" placeholder="To" th:field="*{recipient}" required></br></br>
-                <input class="text" id="textInput" type="text" placeholder="Message" th:field="*{message}" required/></br></br>
+                <input class="to" id="toInput" type="text" placeholder="To" th:field="*{recipient}" required><br><br>
+                <input class="text" id="textInput" type="text" placeholder="Message" th:field="*{message}" required/><br><br>
                 <input class="btn" type="submit" value="POST">
-            </form></br></br></br>
+            </form><br><br><br>
         </div>
     </div>
 </div>
+
 <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const canvas = document.getElementById("canvas");
-            const ctx = canvas.getContext("2d");
-            const toInput = document.getElementById("toInput");
-            const textInput = document.getElementById("textInput");
+    // A dokumentum betöltődésekor végrehajtandó script
+    document.addEventListener("DOMContentLoaded", function() {
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        const toInput = document.getElementById("toInput");
+        const textInput = document.getElementById("textInput");
 
-            const image = new Image();
-            image.src = 'postcard.png';
-            image.onload = () => {
-                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-                updateCanvas();
-            };
+        // Képeslap háttérképének betöltése és a vászon frissítése
+        const image = new Image();
+        image.src = 'postcard.png';
+        image.onload = () => {
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            updateCanvas();
+        };
 
-            toInput.addEventListener("input", updateCanvas);
-            textInput.addEventListener("input", updateCanvas);
+        // Input elemek figyelése és a vászon frissítése
+        toInput.addEventListener("input", updateCanvas);
+        textInput.addEventListener("input", updateCanvas);
 
-            function updateCanvas() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+        // A vászon frissítésének függvénye
+        function updateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-                ctx.font = "20px Arial";
-                ctx.fillStyle = "#1B213E";
-                const toTopMargin = 113;
-                const toText = "To: " + toInput.value;
-                ctx.fillText(toText, 370, toTopMargin);
+            // A címzett és üzenet megjelenítése a vásznon
+            ctx.font = "20px Arial";
+            ctx.fillStyle = "#1B213E";
+            const toTopMargin = 113;
+            const toText = "To: " + toInput.value;
+            ctx.fillText(toText, 370, toTopMargin);
 
-                ctx.font = "20px Arial";
-                ctx.fillStyle = "#1B213E";
-                const textLineHeight = 28;
-                const textIndent = 290;
-                const textTopMargin = 167;
-                let textLines = breakTextIntoLines(textInput.value, 25);
-                textLines.forEach((line, index) => {
-                    ctx.fillText(line, textIndent, textTopMargin + (index * textLineHeight));
-                });
+            // A szöveg sortörése és megjelenítése
+            ctx.font = "20px Arial";
+            ctx.fillStyle = "#1B213E";
+            const textLineHeight = 28;
+            const textIndent = 290;
+            const textTopMargin = 167;
+            let textLines = breakTextIntoLines(textInput.value, 25);
+            textLines.forEach((line, index) => {
+                ctx.fillText(line, textIndent, textTopMargin + (index * textLineHeight));
+            });
 
-                const userName = document.getElementById("username").textContent;
-                ctx.font = "20px Arial";
-                ctx.fillStyle = "#1B213E";
-                const bottomMargin = 380;
-                ctx.fillText("XOXO " + userName, 290, bottomMargin);
-            }
+            // A küldő nevének megjelenítése
+            const userName = document.getElementById("username").textContent;
+            ctx.font = "20px Arial";
+            ctx.fillStyle = "#1B213E";
+            const bottomMargin = 380;
+            ctx.fillText("XOXO " + userName, 290, bottomMargin);
+        }
 
-            function breakTextIntoLines(text, maxCharacters) {
-                let lines = [];
-                let currentLine = '';
+        // A szöveg sortörésének függvénye
+        function breakTextIntoLines(text, maxCharacters) {
+            let lines = [];
+            let currentLine = '';
 
-                for (let i = 0; i < text.length; i++) {
-                    currentLine += text[i];
-                    if ((i + 1) % maxCharacters === 0 || i === text.length - 1) {
-                        lines.push(currentLine);
-                        currentLine = '';
-                    }
+            for (let i = 0; i < text.length; i++) {
+                currentLine += text[i];
+                if ((i + 1) % maxCharacters === 0 || i === text.length - 1) {
+                    lines.push(currentLine);
+                    currentLine = '';
                 }
-                return lines;
             }
-        });
-    </script>
+            return lines;
+        }
+    });
+</script>
 </body>
 </html>
