@@ -125,7 +125,7 @@
 <div class="header">
     <div class="header-left">
         <img src="claus.png" alt="Profile Picture" class="profile-pic">
-        <span>User Name</span>
+        <span th:text="${username}">User Name</span>
     </div>
 
     <div class="header-center">
@@ -144,8 +144,8 @@
             <canvas id="canvas" width="559" height="397"></canvas>
         </div>
         <div class="postcard-form">
-            <form th:action="@{/login}" th:object="${postcard}" method="post">
-                <input class="to" id="toInput" type="text" placeholder="To" th:field="*{to}" required></br></br>
+            <form th:action="@{/createPostcard}" th:object="${postcardForm}" method="post">
+                <input class="to" id="toInput" type="text" placeholder="To" th:field="*{recipient}" required></br></br>
                 <input class="text" id="textInput" type="text" placeholder="Message" th:field="*{message}" required/></br></br>
                 <input class="btn" type="submit" value="POST">
             </form></br></br></br>
