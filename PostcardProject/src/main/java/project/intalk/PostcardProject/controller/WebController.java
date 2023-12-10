@@ -133,10 +133,10 @@ public class WebController {
         postcard.setDatetime(formattedDate);
         postcard.setStatus("pending");
         postcardRepository.save(postcard);
-        return "redirect:/gallery";
+        return "redirect:/main";
     }
 
-    @GetMapping("/gallery")
+/*    @GetMapping("/gallery")
     public String showGalleryPage(HttpSession session, Model model) {
         if (session.getAttribute("username") == null) {
             return "redirect:/login";
@@ -145,7 +145,7 @@ public class WebController {
         List<Postcard> postcards = postcardRepository.findByName(username);
         model.addAttribute("postcards", postcards);
         return "gallery";
-    }
+    }*/
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {

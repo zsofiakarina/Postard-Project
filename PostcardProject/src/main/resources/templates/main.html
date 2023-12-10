@@ -75,21 +75,33 @@
             margin: 20px auto;
             max-width: 90%;
         }
-
         .canvas-container {
+            background-color: #FBE3A5; /* Set background color */
             width: 559px;
-            height: calc(397px + 30px);
+            height: calc(397px + 30px); /* Increase height to accommodate new row */
             margin-bottom: 10px;
             position: relative;
         }
-
         .date-time {
             position: absolute;
             bottom: 0;
-            width: 100%;
-            text-align: center;
+            left: 0; /* Align to the left */
             background-color: rgba(255, 255, 255, 0.8);
-            padding: 5px 0;
+            padding: 5px 10px; /* Adjust padding as needed */
+        }
+        .status-container {
+            position: absolute;
+            bottom: 0;
+            right: 0; /* Align to the right */
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px 10px; /* Adjust padding as needed */
+        }
+        .status-container img {
+            width: 20px;
+            height: 20px;
+            margin-left: 5px;
         }
     </style>
 </head>
@@ -101,8 +113,8 @@
         </div>
 
         <div class="header-center">
-            <a href="/main">Own Gallery</a>
-            <a href="/postcard">Postcard</a>
+            <a href="/main">Gallery</a>
+            <a href="/postcard">Create Postcard</a>
         </div>
 
         <div class="header-right">
@@ -115,6 +127,11 @@
                 <div class="canvas-container">
                     <canvas th:id="'canvas' + ${iterStat.index}" width="559" height="397"></canvas>
                     <div class="date-time" th:text="${postcard.datetime}">Date: DateTime</div>
+                    <div class="status-container">
+                        <span th:text="${postcard.status}">Status: Pending</span>
+                        <img src="approve.png" alt="Approved">
+                        <img src="delete.png" alt="Delete">
+                    </div>
                 </div>
                 <span th:text="${postcard.recipient}" class="hidden-recipient" style="display: none;"></span>
                 <span th:text="${postcard.message}" class="hidden-message" style="display: none;"></span>
