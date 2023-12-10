@@ -176,13 +176,14 @@
             <option value="USER">User</option>
             <option value="ADMIN">Admin</option>
         </select></br></br></br>
-        <input type="text" placeholder="Username" required/></br>
+        <input type="text" name="name" placeholder="Username" required/></br>
         <span th:if="${registrationUserError}" th:text="${registrationUserError}">Name Error!</span></br></br>
-        <input type="email" placeholder="Email address" required/></br>
+        <input type="email" name="email" placeholder="Email address" required/></br>
         <span th:if="${registrationEmailError}" th:text="${registrationEmailError}">Email Error!</span></br></br>
-        <input type="password" placeholder="Password" required/></br></br></br>
+        <input type="password" name="password" placeholder="Password" required/></br></br></br>
         <input type="submit" value="REGISTER">
-    </form></br></br></br>
+    </form>
+</br></br></br>
     <span th:if="${registrationAllError}" th:text="${registrationAllError}"></span>
     <p>If already a member, <a href="/login">sign in here</a>!</p>
 </div>
